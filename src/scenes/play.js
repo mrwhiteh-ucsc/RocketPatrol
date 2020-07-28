@@ -138,6 +138,7 @@ class Play extends Phaser.Scene {
         this.p1Score += rat.points;
         this.scoreLeft.text = this.p1Score;     
         // play sound
-        this.sound.play('sfx_snap');  
+        this.sound.play('sfx_snap'); 
+        this.sound.play('sfx_rat'); 
     }
 }
