@@ -29,8 +29,8 @@ class Play extends Phaser.Scene {
         this.rat03 = new rat(this, game.config.width, 260, 'rat', 0, 10).setOrigin(0,0);
 
         // add roach (x2)
-        this.roach01 = new roach(this, game.config.width, 172, 'roach', 50).setOrigin(0,0);
-        this.roach02 = new roach(this, game.config.width + 52, 224, 'roach', 40).setOrigin(0,0);
+        this.roach01 = new roach(this, game.config.width, 172, 'roach', 0, 50).setOrigin(0,0);
+        this.roach02 = new roach(this, game.config.width + 52, 224, 'roach', 0, 40).setOrigin(0,0);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -50,6 +50,10 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('snap', { start: 0, end: 9, first: 0}),
+            frameRate: 30
+        });
+        this.anims.create({
+            key: 'crush',
             frames: this.anims.generateFrameNumbers('squish', { start: 0, end: 9, first: 0}),
             frameRate: 30
         });
@@ -70,7 +74,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(69, 54, this.p1Score, scoreConfig);
-        this.scoreRight = this.add.text(500, 54, 'Time: ' + this.clock, scoreConfig);
+        //this.scoreRight = this.add.text(500, 54, 'Time: ' + this.clock, scoreConfig);
 
         // game over flag
         this.gameOver = false;
@@ -94,7 +98,7 @@ class Play extends Phaser.Scene {
         }
 
         //scroll tile sprite
-        this.floor.tilePositionX -= 4;
+        this.floor.tilePositionX -= 3;
         //sprite updates
         if (!this.gameOver) {     
             //update trap          
@@ -120,10 +124,10 @@ class Play extends Phaser.Scene {
             this.p1trap.reset();
             this.ratExplode(this.rat01);
         }
-        if (this.checkCollision(this.p1trap, this.roach01)) {
+        if (this.checkRoach(this.p1trap, this.roach01)) {
             this.p1trap.reset();
             this.roachExplode(this.roach01);
-        }if (this.checkCollision(this.p1trap, this.roach02)) {
+        }if (this.checkRoach(this.p1trap, this.roach02)) {
             this.p1trap.reset();
             this.roachExplode(this.roach02);
         }
@@ -135,20 +139,25 @@ class Play extends Phaser.Scene {
         if (trap.x < rat.x + rat.width && 
             trap.x + trap.width > rat.x && 
             trap.y < rat.y + rat.height &&
-            trap.height + trap.y > rat. y) {
+            trap.height + trap.y > rat.y) {
                 return true;
         }
-        //now for roaches
-        else if (trap.x < roach.x + roach.width && 
-            trap.x + trap.width > roach.x && 
-            trap.y < roach.y + roach.height &&
-            trap.height + trap.y > roach.y) {
-                return true;
-            }
          else {
             return false;
         }
     }
+    checkRoach(trap, roach) {
+        if (trap.x < roach.x + roach.width && 
+            trap.x + trap.width > roach.x && 
+            trap.y < roach.y + roach.height &&
+            trap.height + trap.y > roach.y) {
+                return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     ratExplode(rat) {
         //hide rat
@@ -171,12 +180,12 @@ class Play extends Phaser.Scene {
     //repeat for le roach
     roachExplode(roach) {
         roach.alpha = 0;
-        let bang = this.add.sprite(roach.x, roach.y, 'squish').setOrigin(0,0);
-        boom.anims.play('explode');
-        boom.on('animationcomplete', () => {
+        let bang = this.add.sprite(roach.x, roach.y, 'squish').setOrigin(0, 0);
+        bang.anims.play('crush');
+        bang.on('animationcomplete', () => {
             roach.reset();
             roach.alpha = 1;
-            boom.destroy();
+            bang.destroy();
         });
         //roach scores
         this.p1Score += roach.points;
