@@ -26,7 +26,7 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        this.title = new title(0, 0, 640, 480).setOrigin(0, 0);
+        this.title = new title(0, 0, 640, 480, 'title').setOrigin(0, 0);
 
         // show menu text
         let centerX = game.config.width/2;
