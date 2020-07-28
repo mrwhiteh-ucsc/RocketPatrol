@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_rat', './assets/rat.wav');
         this.load.audio('sfx_snap', './assets/snap.wav');
         this.load.audio('sfx_toss', './assets/toss.wav');
+        this.load.image('title', './assets/title.png');
     }
 
     create() {
@@ -24,6 +25,8 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
+
+        this.title = new title(0, 0, 640, 480).setOrigin(0, 0);
 
         // show menu text
         let centerX = game.config.width/2;
