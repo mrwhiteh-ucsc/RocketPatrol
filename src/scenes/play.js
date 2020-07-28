@@ -169,10 +169,10 @@ class Play extends Phaser.Scene {
         this.particleExplosion.createEmitter({
             x: rat.x,
             y: rat.y,
-            lifespan: 1000,
-            speed: {min: 20, max: 100},
+            lifespan: 1500,
+            speed: {min: 40, max: 100},
             gravityY: 0,
-            quantity: 5,
+            quantity: 20,
             frequency: 0,
             scale: 0.5
         }).explode();
@@ -201,7 +201,7 @@ class Play extends Phaser.Scene {
             lifespan: 1000,
             speed: {min: 50, max: 150},
             gravityY: 0,
-            quantity: 10,
+            quantity: 30,
             frequency: 0,
             scale: 0.5
         }).explode();
