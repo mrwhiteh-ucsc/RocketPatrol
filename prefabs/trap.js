@@ -6,7 +6,7 @@ class trap extends Phaser.GameObjects.Sprite {
         //add an object to existing scene
         scene.add.existing(this);
         //add trap sfx
-        this.sfxtrap = scene.sound.add('sfx_trap');
+        this.sfxtrap = scene.sound.add('sfx_toss');
         //firing status
         this.isFiring = false;
     }

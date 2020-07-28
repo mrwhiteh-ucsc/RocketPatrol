@@ -7,7 +7,7 @@ class Menu extends Phaser.Scene {
         // load audio
         this.load.audio('sfx_rat', './assets/rat.wav');
         this.load.audio('sfx_snap', './assets/snap.wav');
-        this.load.audio('sfx_trap', './assets/trap.wav');
+        this.load.audio('sfx_toss', './assets/toss.wav');
     }
 
     create() {
