@@ -5,9 +5,9 @@ class Menu extends Phaser.Scene {
 
     preload() {
         // load audio
-        this.load.audio('sfx_select', './assets/blip.wav');
-        this.load.audio('sfx_explosion', './assets/explosion.wav');
-        this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.audio('sfx_rat', './assets/rat.wav');
+        this.load.audio('sfx_snap', './assets/snap.wav');
+        this.load.audio('sfx_trap', './assets/trap.wav');
     }
 
     create() {
@@ -27,10 +27,9 @@ class Menu extends Phaser.Scene {
 
         // show menu text
         let centerX = game.config.width/2;
-        let centerY = game.config.height/2;
+        let centerY = game.config.height/3;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY- textSpacer, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(centerX, centerY, 'Use ←→ arrows to move & (F) to Fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
@@ -48,7 +47,7 @@ class Menu extends Phaser.Scene {
                 spaceshipSpeed: 3,
                 gameTimer: 60000    
             }
-            this.sound.play('sfx_select');
+            this.sound.play('sfx_rat');
             this.scene.start("playScene");    
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
@@ -57,7 +56,7 @@ class Menu extends Phaser.Scene {
                 spaceshipSpeed: 4,
                 gameTimer: 45000    
             }
-            this.sound.play('sfx_select');
+            this.sound.play('sfx_rat');
             this.scene.start("playScene");    
         }
     }
