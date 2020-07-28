@@ -10,7 +10,7 @@ class Play extends Phaser.Scene {
         this.load.image('floor', './assets/floor.png');
         this.load.image('UI', './assets/UI.png');
         // load spritesheet
-        this.load.spritesheet('floor', './assets/floor.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('snap', './assets/snap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
     create() {
