@@ -26,17 +26,17 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        this.title = new title(0, 0, 640, 480, 'title').setOrigin(0, 0);
+        this.title = this.add.image(0, 0, 'title', menuConfig).setOrigin(0, 0);
 
         // show menu text
         let centerX = game.config.width/2;
         let centerY = game.config.height/3;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY, 'Use ←→ arrows to move & (F) to Fire', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY + 150, 'Use ←→ arrows to move & (F) to Fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
-        this.add.text(centerX, centerY + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);  
+        this.add.text(centerX, centerY + 150 + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);  
         
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
