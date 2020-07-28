@@ -13,12 +13,15 @@ class Play extends Phaser.Scene {
         // load spritesheet
         this.load.spritesheet('snap', './assets/snap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('squish', './assets/squish.png', {frameWidth: 32, frameHeight: 16, startFrame: 0, endFrame: 9});
+        //particles
+        this.load.image('particles', './assets/particles.png');
     }
 
     create() {
         // place tile sprite
         this.floor = this.add.tileSprite(0, 0, 640, 480, 'floor').setOrigin(0, 0);
 
+        this.particleExplosion = this.add.particles('particles');
         
         // add trap (p1)
         this.p1trap = new trap(this, game.config.width/2, 431, 'trap').setScale(0.5, 0.5).setOrigin(0, 0);
@@ -83,7 +86,7 @@ class Play extends Phaser.Scene {
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, '(F)ire to Restart', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, '(F)ire to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
     }
@@ -162,6 +165,18 @@ class Play extends Phaser.Scene {
     ratExplode(rat) {
         //hide rat
         rat.alpha = 0;
+        //particles
+        this.particleExplosion.createEmitter({
+            x: rat.x,
+            y: rat.y,
+            lifespan: 1000,
+            speed: {min: 20, max: 100},
+            gravityY: 0,
+            quantity: 5,
+            frequency: 0,
+            scale: 0.5
+        }).explode();
+
         // create snap sprite at rat's position
         let boom = this.add.sprite(rat.x, rat.y, 'snap').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
@@ -180,6 +195,16 @@ class Play extends Phaser.Scene {
     //repeat for le roach
     roachExplode(roach) {
         roach.alpha = 0;
+        this.particleExplosion.createEmitter({
+            x: roach.x,
+            y: roach.y,
+            lifespan: 1000,
+            speed: {min: 50, max: 150},
+            gravityY: 0,
+            quantity: 10,
+            frequency: 0,
+            scale: 0.5
+        }).explode();
         let bang = this.add.sprite(roach.x, roach.y, 'squish').setOrigin(0, 0);
         bang.anims.play('crush');
         bang.on('animationcomplete', () => {
@@ -190,7 +215,7 @@ class Play extends Phaser.Scene {
         //roach scores
         this.p1Score += roach.points;
         this.scoreLeft.text = this.p1Score;
-        this.sound.play('sfx_squish');
+        this.sound.play('sfx_snap');
         this.sound.play('sfx_roach');
     }
 }
