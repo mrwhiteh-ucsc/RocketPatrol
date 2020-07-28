@@ -22,9 +22,9 @@ class Play extends Phaser.Scene {
         this.p1trap = new trap(this, game.config.width/2, 431, 'trap').setScale(0.5, 0.5).setOrigin(0, 0);
 
         // add rats (x3)
-        this.ship01 = new rat(this, game.config.width + 192, 132, 'rat', 0, 30).setOrigin(0,0);
-        this.ship02 = new rat(this, game.config.width + 96, 196, 'rat', 0, 20).setOrigin(0,0);
-        this.ship03 = new rat(this, game.config.width, 260, 'rat', 0, 10).setOrigin(0,0);
+        this.rat01 = new rat(this, game.config.width + 192, 132, 'rat', 0, 30).setOrigin(0,0);
+        this.rat02 = new rat(this, game.config.width + 96, 196, 'rat', 0, 20).setOrigin(0,0);
+        this.rat03 = new rat(this, game.config.width, 260, 'rat', 0, 10).setOrigin(0,0);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -91,51 +91,51 @@ class Play extends Phaser.Scene {
         if (!this.gameOver) {     
             //update trap          
             this.p1trap.update();
-            //and ships
-            this.ship01.update();
-            this.ship02.update();
-            this.ship03.update();
+            //and rats
+            this.rat01.update();
+            this.rat02.update();
+            this.rat03.update();
         }             
         // check collisions
-        if(this.checkCollision(this.p1trap, this.ship03)) {
+        if(this.checkCollision(this.p1trap, this.rat03)) {
             this.p1trap.reset();
-            this.shipExplode(this.ship03);   
+            this.ratExplode(this.rat03);   
         }
-        if (this.checkCollision(this.p1trap, this.ship02)) {
+        if (this.checkCollision(this.p1trap, this.rat02)) {
             this.p1trap.reset();
-            this.shipExplode(this.ship02);
+            this.ratExplode(this.rat02);
         }
-        if (this.checkCollision(this.p1trap, this.ship01)) {
+        if (this.checkCollision(this.p1trap, this.rat01)) {
             this.p1trap.reset();
-            this.shipExplode(this.ship01);
+            this.ratExplode(this.rat01);
         }
     }
 
-    checkCollision(trap, ship) {
+    checkCollision(trap, rat) {
         // simple AABB checking
-        if (trap.x < ship.x + ship.width && 
-            trap.x + trap.width > ship.x && 
-            trap.y < ship.y + ship.height &&
-            trap.height + trap.y > ship. y) {
+        if (trap.x < rat.x + rat.width && 
+            trap.x + trap.width > rat.x && 
+            trap.y < rat.y + rat.height &&
+            trap.height + trap.y > rat. y) {
                 return true;
         } else {
             return false;
         }
     }
 
-    shipExplode(ship) {
-        //hide ship
-        ship.alpha = 0;
-        // create snap sprite at ship's position
-        let boom = this.add.sprite(ship.x, ship.y, 'snap').setOrigin(0, 0);
+    ratExplode(rat) {
+        //hide rat
+        rat.alpha = 0;
+        // create snap sprite at rat's position
+        let boom = this.add.sprite(rat.x, rat.y, 'snap').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after animation completes
-            ship.reset();                       // reset ship position
-            ship.alpha = 1;                     // make ship visible again
+            rat.reset();                       // reset rat position
+            rat.alpha = 1;                     // make rat visible again
             boom.destroy();                     // remove snap sprite
         });
         // score increment and repaint
-        this.p1Score += ship.points;
+        this.p1Score += rat.points;
         this.scoreLeft.text = this.p1Score;     
         // play sound
         this.sound.play('sfx_snap');  
